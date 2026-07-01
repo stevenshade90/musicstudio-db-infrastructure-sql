@@ -46,17 +46,52 @@ INSERT INTO instrument_list (instrument_name) VALUES
 ('Cello'),
 ...
 ```
-Since there is a `GENERATED ALWAYS AS IDENTITY` constraint, the `id` variable will be unique and there are no instruments with duplicate identifiers.
+Since there is a `GENERATED ALWAYS AS IDENTITY` constraint, the `id` column will be unique and there are no instruments with duplicate identifiers.
 
+Next, values are inserted into the **Parent Info** table. Since `NOT NULL` constraints were used in this table, data will only be successfully added if values are able to be inserted into the table. 
+```sql
+INSERT INTO parent_info (id, full_name, email, phone) VALUES 
+(1, 'Tim Shade', 'tshade84@gmail.com', '412-333-5252'),
+(2, 'Tyler Callahan', 'tyler.callahan@comcast.net', '222-533-2124'),
+(3, 'Charles Allen', 'charallen@comcast.net', '211-121-1234'),
+...
+```
 
-**Data Input Script:** [02_inputs.sql](./02_inputs.sql)
+Data is now inserted into the final independent table, **Teacher Info.** This table also uses the `GENERATED ALWAYS AS IDENTITY` constraint, and the `id` value does not need to be listed in the insert statement. Additionally, the `UNIQUE` constraint was added to the email column, and values will only be successfully added if there are no duplicate emails.
+```sql
+INSERT INTO teacher_info (full_name, email, phone) VALUES 
+('Amber Hindy', 'ahindy@gmail.com', '212-424-3431'),
+('Pablo Richardson', 'rpablo@gmail.com', '111-111-1112'),
+('Makaela Guntz', 'mikkig@gmail.com', '724-555-5123'),
+...
+```
 
+The **dependent** tables will now receive their input data. Starting with the **Invoice Info** table, each invoice needs to be mapped to a specific parent, which was determined by the `FOREIGN KEY` that was established during table creation. This allows multiple invoices to be mapped to a single parent. Whether or not an invoice was paid is determined by a `BOOLEAN` value, and a unique id is generated for each invoice.
+```sql-- Seeding data for Invoice Info
+INSERT INTO invoice_info (parent_id, billing_amount, invoice_paid) VALUES 
+(1, 200.00, false),
+(1, 150.00, false),
+(1, 350.00, true),
+(2, 100.00, true),
+(3, 450.00, true),
+...
+```
 
+Finally, we add the students to the **Student Info** table. 
+```sql
+INSERT INTO student_info (parent_id, teacher_id, instrument_id, full_name, age) 
+VALUES 
+(1, 1, 2, 'Charles Shade', 14),
+(3, 2, 8, 'Timothy Allen', 6),
+(4, 5, 9, 'John Mangiardi', 17),
+(5, 4, 1, 'Annabel Smith', 3),
+...
+```
+This data needs to be added correctly so data is appropriately mapped to the corresponding independent tables. However, if an improper value was inserted, we could alter values using the `UPDATE` command. If we needed to update the `teacher_id` value for the first student, **Charles Shade**, that could be done with the following command:
+```sql
+UPDATE student_info
+SET teacher_id = 2
+WHERE full_name = 'Charles Shade';
+```
 
-
-
-
-
-
-
-
+The complete input script can be found here: [02_inputs.sql](./02_inputs.sql)
