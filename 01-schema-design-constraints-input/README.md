@@ -67,7 +67,7 @@ INSERT INTO teacher_info (full_name, email, phone) VALUES
 ```
 
 The **dependent** tables will now receive their input data. Starting with the **Invoice Info** table, each invoice needs to be mapped to a specific parent, which was determined by the `FOREIGN KEY` that was established during table creation. This allows multiple invoices to be mapped to a single parent. Whether or not an invoice was paid is determined by a `BOOLEAN` value, and a unique id is generated for each invoice.
-```sql-- Seeding data for Invoice Info
+```sql
 INSERT INTO invoice_info (parent_id, billing_amount, invoice_paid) VALUES 
 (1, 200.00, false),
 (1, 150.00, false),
