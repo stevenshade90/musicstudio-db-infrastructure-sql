@@ -15,6 +15,7 @@ To store all of the tables that will be used, an initial database needs to be cr
 A database for the music school was created, titled `ShadeMusicSchool`. Inside the database, five tables were created to hold all relevant business data.
 
 ![Database and Tables](./images/database-and-tables.png)
+
 *Figure 1: The initial setup of the database and the tables needed for the music school.*
 
 Next, **independent** tables were added. These tables were **Instrument List**, **Parent Info**, and **Teacher Info.** Constraints were added to these three tables to allow them to be related to the dependent tables that will be created next:
