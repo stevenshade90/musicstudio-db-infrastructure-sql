@@ -35,6 +35,20 @@ CONSTRAINT student_info_instrument_id_fkey FOREIGN KEY (instrument_id) REFERENCE
 The complete database script can be found here: [01_schema.sql](./01_schema.sql)
 
 ### Step 2: Data Input
+Data input begins with the **independent** tables, and a basic `INSERT INTO` command is used to populate the values. First, we input the values into the **Instrument List** table:
+
+```sql
+-- Seeding data for Instrument List
+INSERT INTO instrument_list (instrument_name) VALUES 
+('Piano'),
+('Violin'),
+('Viola'),
+('Cello'),
+...
+```
+Since there is a `GENERATED ALWAYS AS IDENTITY` constraint, the `id` variable will be unique and there are no instruments with duplicate identifiers.
+
+
 **Data Input Script:** [02_inputs.sql](./02_inputs.sql)
 
 
